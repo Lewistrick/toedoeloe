@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  frontend:
+    build: ./services/frontend
+    volumes:
+      - ./services/frontend:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+
+  backend:
+    build: ./services/backend
+    environment:
+      POSTGRES_DB: toedoeloe3
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: ShLEvNLsNonF6p54
+    ports:
+      - 5001:5001
+    volumes:
+      - ./services/backend:/app
+    command: uvicorn src.main:app --host 0.0.0.0 --port 5001 --reload
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    expose:
+      - 5432
+    environment:
+      POSTGRES_PASSWORD: ShLEvNLsNonF6p54
+      POSTGRES_DB: toedoeloe3
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
