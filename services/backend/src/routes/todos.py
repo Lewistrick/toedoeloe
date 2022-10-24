@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
@@ -105,7 +107,10 @@ async def update_todo(
     check_todo_exists(todo)
     check_owner(todo, current_user)
 
-    todo_query.update(todo_new.dict(), synchronize_session=False)
+    todo_dict = todo_new.dict()
+    todo_dict["modified_at"] = datetime.now()
+
+    todo_query.update(todo_dict, synchronize_session=False)
     db.commit()
 
     return todo_query.first()
@@ -122,7 +127,8 @@ async def toggle_finished(
     check_todo_exists(todo)
     check_owner(todo, current_user)
 
-    todo.finished = not (todo.finished)
+    todo.finished = not todo.finished
+    todo.modified_at = datetime.now()
 
     db.commit()
     db.refresh(todo)
