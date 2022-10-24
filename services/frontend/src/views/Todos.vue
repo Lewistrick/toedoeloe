@@ -5,7 +5,7 @@
         <div class="row row-cols-4">
             <!-- Big button for new task -->
             <div class="card todo shadow newtask" @click="createTodo">
-                <div class="card-body limited">
+                <div class="card-body limited inline">
                     <p class="card-text bigplus">+</p>
                 </div>
             </div>
@@ -122,6 +122,7 @@ export default {
 }
 
 .newtask {
+    position: relative;
     background-color: #79b;
     text-align: center;
 }
@@ -130,9 +131,17 @@ export default {
     background-color: #8ac;
 }
 
+.inline {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+}
+
 .bigplus {
     margin: auto;
-    font-size: 3em;
+    font-size: 5em;
 }
 
 .right {
