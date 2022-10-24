@@ -64,6 +64,7 @@ const router = new VueRouter({
 // check if the user is logged in before each route change
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
+    store.dispatch('checkLogin');
     if (store.getters.isLoggedIn) {
       next();
       return;
