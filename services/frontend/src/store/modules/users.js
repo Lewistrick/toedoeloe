@@ -25,7 +25,22 @@ const actions = {
     },
     async logOut({ commit }) {
         let user = null;
+        commit('removeData', { root: true });
         commit('logout', user);
+    },
+    async checkLogin({ commit }) {
+        console.log('checking login status');
+        try {
+            const response = await axios.get('users/me');
+            console.log('logged in');
+            commit('setUser', response.data.username);
+        } catch (error) {
+            console.log('not logged in');
+            commit('setUser', null);
+            // reset todos
+            commit('removeData', { root: true });
+            return;
+        }
     },
     async deleteUser() {
         console.log('deleting user:', state.user);

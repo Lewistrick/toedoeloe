@@ -32,8 +32,12 @@ const actions = {
         commit('setTodo', response.data);
     },
     async deleteTodo({ commit }, id) {
-        const response = await axios.delete(`todos/${id}`);
+        await axios.delete(`todos/${id}`);
         commit('unsetTodo');
+    },
+    async removeData({ commit }) {
+        commit('unsetTodo');
+        commit('unsetTodos');
     }
 };
 
@@ -42,6 +46,7 @@ const mutations = {
     addTodo: (state, todo) => state.todos.push(todo),
     setTodo: (state, todo) => (state.currentTodo = todo),
     unsetTodo: (state) => (state.currentTodo = null),
+    unsetTodos: (state) => (state.todos = []),
 };
 
 export default {
